@@ -24,7 +24,10 @@
       "Bash(brew install *)",
       "Bash(npm install *)",
       "Bash(open *)",
-      "Bash(npm uninstall *)"
+      "Bash(npm uninstall *)",
+      "Bash(sips -z 512 512 /Users/mkrogers/Projects/daily-peace/quote.jpg -s format png --out /Users/mkrogers/Projects/daily-peace/public/icon-512.png)",
+      "Bash(sips -z 192 192 /Users/mkrogers/Projects/daily-peace/quote.jpg -s format png --out /Users/mkrogers/Projects/daily-peace/public/icon-192.png)",
+      "Bash(sips -z 48 48 /Users/mkrogers/Projects/daily-peace/quote.jpg -s format png --out /Users/mkrogers/Projects/daily-peace/public/favicon.png)"
     ]
   }
 }
