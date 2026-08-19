@@ -2,35 +2,16 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import quotesData from './data/quotes.json'
 import './App.css'
 
-function getDateSeed() {
-  const d = new Date()
-  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
-}
+const REFERENCE_DATE = new Date(2026, 0, 1) // local midnight 2026-01-01 = day 0, index 0
 
-function useQuotes() {
-  const [displayQuotes, setDisplayQuotes] = useState([])
-  const [nextIndex, setNextIndex] = useState(0)
-
-  useEffect(() => {
-    const seed = getDateSeed()
-    const startOffset = seed % quotesData.length
-    const initial = quotesData.slice(startOffset, startOffset + 5)
-    setDisplayQuotes(initial)
-    setNextIndex(startOffset + 5)
-  }, [])
-
-  const loadMore = useCallback(() => {
-    if (nextIndex >= quotesData.length) return
-    const batch = quotesData.slice(nextIndex, nextIndex + 5)
-    setDisplayQuotes(prev => [...prev, ...batch])
-    setNextIndex(prev => prev + 5)
-  }, [nextIndex])
-
-  return { displayQuotes, loadMore, hasMore: nextIndex < quotesData.length }
+function getTodayIndex() {
+  const now = new Date()
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const daysDiff = Math.round((todayMidnight - REFERENCE_DATE) / 86400000)
+  return ((daysDiff % quotesData.length) + quotesData.length) % quotesData.length
 }
 
 function App() {
-  const { displayQuotes, loadMore, hasMore } = useQuotes()
   const containerRef = useRef(null)
   const slideRefs = useRef([])
   const [showBackToTop, setShowBackToTop] = useState(false)
@@ -38,10 +19,15 @@ function App() {
   const currIndex = useRef(0)
   const prevIndex = useRef(0)
   const isScrollingToTop = useRef(false)
-
   const holdTimer = useRef(null)
 
-  // IntersectionObserver: track current slide, show Back to Top, auto-load more
+  useEffect(() => {
+    const idx = getTodayIndex()
+    if (containerRef.current && slideRefs.current[idx]) {
+      containerRef.current.scrollTop = slideRefs.current[idx].offsetTop
+    }
+  }, [])
+
   useEffect(() => {
     if (!containerRef.current) return
     const observer = new IntersectionObserver(
@@ -57,8 +43,6 @@ function App() {
           setShowBackToTop(scrollingBack && currIndex.current > 1)
 
           if ('vibrate' in navigator) navigator.vibrate(10)
-
-          if (hasMore && currIndex.current >= displayQuotes.length - 2) loadMore()
         })
       },
       { root: containerRef.current, threshold: 0.6 }
@@ -69,7 +53,7 @@ function App() {
     })
 
     return () => observer.disconnect()
-  }, [displayQuotes, hasMore, loadMore])
+  }, [])
 
   const scrollToTop = useCallback(() => {
     if (!containerRef.current) return
@@ -114,9 +98,9 @@ function App() {
         </button>
       </div>
 
-      {displayQuotes.map((quote, idx) => (
+      {quotesData.map((quote, idx) => (
         <section
-          key={`${idx}-${quote.id}`}
+          key={quote.id}
           ref={el => { slideRefs.current[idx] = el }}
           data-index={idx}
           className="slide"
@@ -127,7 +111,7 @@ function App() {
         >
           <div
             className="bg-layer"
-            style={{ backgroundImage: `url(${quote.bg})` }}
+            style={{ backgroundImage: `url(${import.meta.env.BASE_URL}${quote.bg.replace(/^\//, '')})` }}
           />
           <div className="bg-overlay" />
           {bookmarked === idx && (
@@ -140,18 +124,16 @@ function App() {
         </section>
       ))}
 
-      {!hasMore && (
-        <section
-          ref={el => { slideRefs.current[displayQuotes.length] = el }}
-          data-index={displayQuotes.length}
-          className="end-screen"
-        >
-          <p className="end-label">No more quotes</p>
-          <button type="button" onClick={scrollToTop} className="end-btn">
-            Return to Start
-          </button>
-        </section>
-      )}
+      <section
+        ref={el => { slideRefs.current[quotesData.length] = el }}
+        data-index={quotesData.length}
+        className="end-screen"
+      >
+        <p className="end-label">No more quotes</p>
+        <button type="button" onClick={scrollToTop} className="end-btn">
+          Return to Start
+        </button>
+      </section>
     </div>
   )
 }
