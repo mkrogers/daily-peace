@@ -30,6 +30,27 @@ The icon will appear on your home screen. Open it once with an internet connecti
 
 ---
 
+## How Quotes Work
+
+### Daily rotation
+
+Every day the app automatically opens to a different quote. The quote shown is determined by the current calendar date — each date maps to one quote in the list, cycling through all quotes in order before repeating. You don't need to do anything; just open the app and today's quote is waiting at the top.
+
+You can scroll up or down to read other quotes at any time. A **Back to Top** button appears when you scroll backward, returning you to today's quote in one tap.
+
+### Bookmarks
+
+Each quote has a bookmark icon in the bottom-right corner of its screen. Tapping it saves that quote to your personal collection.
+
+- **Filled bookmark** — the quote is saved
+- **Outline bookmark** — the quote is not saved
+
+Your saved quotes are stored on your device (in the browser's local storage), so they persist between visits and work offline. They are not shared with anyone.
+
+To view your saved quotes, tap the **bookmark icon in the top-right corner** of the app. This opens a panel listing everything you've saved. Tap any entry to jump directly to that quote. To remove a quote from your saved list, tap the **✕** next to it in the panel.
+
+---
+
 ## Editing the Quotes
 
 All quotes live in one file: **`src/data/quotes.json`**
