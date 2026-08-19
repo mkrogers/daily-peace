@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list *)",
+      "Bash(node -e \"require\\('/usr/local/lib/node_modules/playwright'\\)\")",
+      "WebFetch(domain:nsuzu72.github.io)",
+      "Bash(gh api *)",
+      "Bash(curl -s \"https://nsuzu72.github.io/daily-peace/\")",
+      "Bash(curl -s \"https://nsuzu72.github.io/daily-peace/static/js/main.d96a59ac.js\")",
+      "Bash(curl *)",
+      "Bash(grep *)",
+      "Bash(python3 *)",
+      "Bash(npm run *)",
+      "Bash(npx playwright *)",
+      "Bash(node -e ' *)",
+      "Bash(node *)",
+      "Bash(pkill -f \"vite --port 5174\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cwebp -version)",
+      "Bash(ffmpeg -version)",
+      "Bash(sips --help)",
+      "Bash(convert --version)",
+      "Bash(brew install *)"
+    ]
+  }
+}
