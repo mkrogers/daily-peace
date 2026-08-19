@@ -21,7 +21,10 @@
       "Bash(ffmpeg -version)",
       "Bash(sips --help)",
       "Bash(convert --version)",
-      "Bash(brew install *)"
+      "Bash(brew install *)",
+      "Bash(npm install *)",
+      "Bash(open *)",
+      "Bash(npm uninstall *)"
     ]
   }
 }

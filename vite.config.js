@@ -16,8 +16,8 @@ export default defineConfig({
         start_url: '/daily-peace/',
         scope: '/daily-peace/',
         display: 'standalone',
-        background_color: '#000000',
-        theme_color: '#000000',
+        background_color: '#FDF6E3',
+        theme_color: '#FDF6E3',
         icons: [
           {
             src: 'icon-192.png',
